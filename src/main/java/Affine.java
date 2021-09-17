@@ -1,14 +1,71 @@
 import java.util.Scanner;
 
 public class Affine {
+    public static int letterToNumber(char ch){
+        if (ch>='a'){
+            return ch-'a';
+        }
+        else{
+            return (int) (ch-'A');
+        }
+
+    }
+    public static boolean isLetter(char ch){
+        return ((ch>='a'&& ch<='z')||(ch>='A'&&ch<='Z'));
+    }
+    public static char encryptChar(char ch, int key, int key2){
+        int x = letterToNumber(ch);
+        x = ((x*key)+key2)%26;
+        if (ch>='a') {
+            return (char) (x + 'a');
+        }
+        else{
+            return (char)(x+'A');
+        }
+    }
+    public static char decryptChar(char ch, int key, int key2){
+        int x = letterToNumber(ch);
+        x = (x-key2);
+        if (x<0){
+            x=25-x;
+        }
+        x= (int)(((double)x/key)+1);
+        if (ch>='a') {
+            return (char) (x + 'a');
+        }
+        else{
+            return (char)(x+'A');
+        }
+    }
     public static String encryptAffine(String message) {
-        // REPLACE THIS WITH YOUR CODE
-        return message;
+        String encrypted= "";
+        for (int i = 0;i<(message.length());i++){
+            char ch=' ';
+            if (isLetter(message.charAt(i))){
+                ch = (encryptChar(message.charAt(i),3,0));
+            }
+            else{
+                ch=message.charAt(i);
+            }
+            encrypted+=ch;
+        }
+        return encrypted;
     }
 
     public static String decryptAffine(String message) {
-        // REPLACE THIS WITH YOUR CODE
-        return message;
+        String decrypted= "";
+        for (int i = 0;i<(message.length());i++){
+            char ch= ' ';
+            if (isLetter(message.charAt(i))){
+                ch = decryptChar(message.charAt(i),3,0);
+
+            }
+            else{
+                ch= message.charAt(i);
+            }
+            decrypted+=ch;
+        }
+        return decrypted;
     }
 
     public static String encryptAffineKeys(String message, int key1, int key2) {
