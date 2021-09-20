@@ -1,14 +1,79 @@
 import java.util.Scanner;
 
 public class Vigenere {
+    public static boolean isLetter(char ch){
+        return ((ch>='a'&& ch<='z')||(ch>='A'&&ch<='Z'));
+    }
+    public static char nextLetter(char ch, int shift) {
+        int x = ch+shift;
+        if (x>'Z'&& ch<'a'){
+            x-=26;
+        }
+        else if (x>'z'){
+            x-=26;
+        }
+        return (char) (x);
+
+    }
+    public static char lastLetter(char ch, int shift) {
+        int x = ch-shift;
+        if (x<'a'&& ch>'Z'){
+            x+=26;
+        }
+        else if (x<'A'){
+            x+=26;
+        }
+        return (char) (x);
+
+    }
+    public static int letterToNumber(char ch){
+        if (ch>='a'){
+            return ch-'a';
+        }
+        else{
+            return (ch-'A');
+        }
+
+    }
+    public static int interpretKey(int index, String key){
+        return letterToNumber(key.charAt(index));
+    }
     public static String encryptVigenere(String message, String key) {
-        return message;
-        // REPLACE THIS WITH YOUR CODE
+        String encrypted = "";
+        int keyIndex=-1;
+        for (int i=0;i<message.length();i++){
+            char ch=message.charAt(i);
+            if ( !(isLetter(ch))){
+                encrypted+=ch;
+            }
+            else{
+                keyIndex++;
+                if (keyIndex==key.length()){
+                    keyIndex=0;
+                }
+                encrypted+=nextLetter(ch,interpretKey(keyIndex,key));
+            }
+        }
+        return encrypted;
     }
 
     public static String decryptVigenere(String message, String key) {
-        return message;
-        // REPLACE THIS WITH YOUR CODE
+        String decrypted = "";
+        int keyIndex=-1;
+        for (int i=0;i<message.length();i++){
+            char ch=message.charAt(i);
+            if ( !(isLetter(ch))){
+                decrypted+=ch;
+            }
+            else{
+                keyIndex++;
+                if (keyIndex==key.length()){
+                    keyIndex=0;
+                }
+                decrypted+=lastLetter(ch,interpretKey(keyIndex,key));
+            }
+        }
+        return decrypted;
     }
 
 
